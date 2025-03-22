@@ -1,0 +1,62 @@
+-
+ name: jenkins
+ hosts: myservers
+ become: yes
+ tasks:
+   - name: update when OS is Debian
+     apt:
+       update_cache: yes
+     when: ansible_distribution == 'Ubuntu'
+
+   - name: install_java when OS is Debian
+     apt:
+       name:
+         - fontconfig
+         - openjdk-17-jre
+       state: present
+     when: ansible_distribution == 'Ubuntu'
+
+   - name: gpg_key when OS is Debian
+     ansible.builtin.get_url:
+       url:  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+       dest: /usr/share/keyrings/jenkins-keyring.asc
+     when: ansible_distribution == 'Ubuntu'
+
+   - name: add_jenkin_apt when OS is Debian
+     ansible.builtin.copy:
+         content: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+         dest: /etc/apt/sources.list.d/jenkins.list
+     when: ansible_distribution == 'Ubuntu'
+
+
+   - name: update when OS is Debian
+     apt:
+       update_cache: yes
+     when: ansible_distribution == 'Ubuntu'
+
+
+   - name: install_jenkins when OS is Debian
+     apt:
+       name: jenkins
+       state: present
+     when: ansible_distribution == 'Ubuntu'
+
+   - name: update when OS is RedHat
+     dnf:
+       update_cache: yes
+     when: ansible_distribution == 'RedHat'
+
+   - name: install_httpd when OS is RedHat
+     yum:
+       name: httpd
+       state: present
+     when: ansible_distribution == 'RedHat'
+
+   - name: service_start when OS is RedHat
+     systemd:
+       name: httpd
+       enabled: yes
+       state: started
+     when: ansible_distribution == 'RedHat'
+
+
