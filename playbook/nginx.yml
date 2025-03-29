@@ -1,0 +1,17 @@
+-
+ name: nginx
+ hosts: servers
+ become: yes
+ tasks:
+   - name: nginx
+     apt:
+       name: nginx
+       state: latest
+   - name: update
+     apt:
+       update_cache: yes
+   - name: nginx_start
+     service:
+       name: nginx
+       state: started
+       enabled: yes
