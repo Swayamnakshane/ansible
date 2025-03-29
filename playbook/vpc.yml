@@ -1,0 +1,14 @@
+-
+  name: vpc_create
+  hosts: localhost
+  tasks:
+    - name: vpc
+      amazon.aws.ec2_vpc_net:
+        name: server2_vpc
+        cidr_block: 10.10.0.0/16
+        region: sa-east-1
+        state: present
+        tags:
+          module: ec2_vpc_net
+          this: works
+        tenancy: dedicated
