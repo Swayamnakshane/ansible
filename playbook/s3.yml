@@ -1,0 +1,9 @@
+-
+  name: s3_bucket
+  hosts: localhost
+  tasks:
+    - name: s3
+      amazon.aws.s3_bucket:
+         name: sevlet3balti
+         region: sa-east-1
+         state: present
